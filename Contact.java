@@ -9,7 +9,7 @@ public class Contact {
     private String contactGroup;
 
 
-    public Contact(String number, String firstName, String lastName, String mail, String numberType, String contactGroup) {
+    public Contact() {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,8 +18,10 @@ public class Contact {
         this.contactGroup = contactGroup;
     }
 
-    public Contact(String first, String last, String number) {
-
+    public Contact(String firstName, String lastName, String number) {
+     this.firstName = firstName;
+     this.lastName = lastName;
+     this.number = number;
     }
 
     public String getNumber() {

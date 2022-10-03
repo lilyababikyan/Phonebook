@@ -1,51 +1,53 @@
 package phonebook;
 
 import java.util.*;
+
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.FileWriter;
 public class PhoneBook {
-    String number;
-    String first;
-    String last;
 
-    private Scanner s = new Scanner(System.in);
-        private Contact contact[] = new Contact[100];
-        private int count;
-        private String fileName;
-
-        public PhoneBook(String fileName)
-        {
-            this.fileName = fileName;
-            for (int j = 0; j < 100; j++) {
-                contact[j] = new Contact(first, last, number);
-            }
+    public static class PhoneContacts {
+        ArrayList<Contact> list;
+        public PhoneContacts(){
+            list = new ArrayList<>();
         }
 
-        public boolean add(Contact c)
-        {
-            if(count <= 100)
-            {
+        Contact contact[] = new Contact[100];
+        int count;
+        String fileName;
+
+        public PhoneContacts(String first, String last, String number, String mail, String numberType, String contactGroup) {
+        }
+
+        /**
+         * Adding new contact in contact list
+         * @param c
+         * @return new contact
+         */
+        public boolean add(Contact c) {
+            if (count <= 100) {
                 contact[count] = c;
                 count++;
                 return true;
-            }
-            else
+            } else
                 System.out.println("The directory is full\n");
             return false;
         }
-        public boolean remove(String fullName)
-        {
+
+        /**
+         * Remove contact from contact list
+         * @param fullName
+         * @return the absence of contact
+         */
+        public boolean remove(String fullName) {
             int index = -1;
-            for(int i = 0; i < count; i++)
-            {
-                if (fullName.equals(contact[i].getFirstName()))
-                {
+            for (int i = 0; i < count; i++) {
+                if (fullName.equals(contact[i].getFirstName())) {
                     index = i;
-                    for(int j=index; j<count; j++)
-                    {
-                        contact[j] = contact[j+1];
+                    for (int j = index; j < count; j++) {
+                        contact[j] = contact[j + 1];
                     }
                     count--;
                     return true;
@@ -53,47 +55,50 @@ public class PhoneBook {
             }
             return false;
         }
-        public Contact search(String fullName)
-        {
-            for(int i = 0; i <count; i++)
-                if(fullName.equals(contact[i].getFirstName()))
-                {
+
+        /**
+         * Search contact in contact list
+         * @param fullName
+         * @return contact
+         */
+        public Contact search(String fullName) {
+            for (int i = 0; i < count; i++)
+                if (fullName.equals(contact[i].getFirstName())) {
                     System.out.println("Name\t\t       Phone Number\n" +
                             "-------------------------------------");
                     System.out.print(contact[i].getFirstName() + " " +
                             contact[i].getLastName() + "\t\t");
                     System.out.println(contact[i].getNumber());
                     System.out.println("-------------------------------------\n");
-                }
-                else
+                } else
                     System.out.println("Contact Not Found.\n");
             return null;
         }
-        public void display()
-        {
+
+        /**
+         * Phone contact list
+         */
+        public void display() {
             System.out.println("Name\t\t       Phone Number\n" +
                     "-------------------------------------");
-            for(int i = 0;  i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 System.out.print(contact[i].getFirstName() + " " + contact[i].getLastName());
                 System.out.format("%21s%n", contact[i].getNumber());
             }
             System.out.println("-------------------------------------\n");
         }
-        public boolean load()
-        {
+
+        public boolean load() {
             try {
                 count = 0;
                 int lineNumber = 3;
                 Scanner s = new Scanner(new File(fileName));
-                while(s.hasNext())
-                {
-                    if(lineNumber % 3 == 0 )
+                while (s.hasNext()) {
+                    if (lineNumber % 3 == 0)
                         this.contact[count].setFirstName(s.next());
-                    if(lineNumber % 3 == 1 )
+                    if (lineNumber % 3 == 1)
                         this.contact[count].setLastName(s.next());
-                    if(lineNumber % 3 == 2 )
-                    {
+                    if (lineNumber % 3 == 2) {
                         this.contact[count].setNumber(s.next());
                         count++;
                     }
@@ -101,21 +106,21 @@ public class PhoneBook {
                 }
                 s.close();
                 return true;
-            }
-            catch (FileNotFoundException c)
-            {
+            } catch (FileNotFoundException c) {
                 System.out.println("Unable to read file.");
                 System.exit(0);
             }
             return false;
         }
-        public boolean save()
-        {
-            try
-            {
+
+        /**
+         * Save contact in contact list
+         * @return contact
+         */
+        public boolean save() {
+            try {
                 FileWriter writer = new FileWriter(new File(fileName));
-                for(int i = 0; i < count; i++)
-                {
+                for (int i = 0; i < count; i++) {
                     writer.write(contact[i].getFirstName());
                     writer.write("\n");
                     writer.write(contact[i].getLastName());
@@ -125,11 +130,13 @@ public class PhoneBook {
                 }
                 writer.close();
                 return true;
-            }
-            catch (IOException c)
-            {
+            } catch (IOException c) {
                 System.out.println("Unable to save.");
             }
             return false;
         }
+
+        public void menu() {
+        }
     }
+}//Public class
